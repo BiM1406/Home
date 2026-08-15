@@ -16,3 +16,8 @@ Thumbs.db
 # Build & Test output
 dist/
 coverage/
+
+# AI-DLC Local Workflow Artifacts (Local Only - Do Not Push)
+aidlc-docs/
+.aidlc/
+
