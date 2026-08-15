@@ -10,6 +10,8 @@ import { renderChatView } from './views/chatView.js';
 import { renderContractView } from './views/contractView.js';
 import { renderDashboardView } from './views/dashboardView.js';
 import { renderAdminView } from './views/adminView.js';
+import { renderNavbar } from './components/navbar.js';
+
 
 // Route definition mapping
 const routes = {
@@ -35,6 +37,9 @@ export function handleRoute() {
 
   const viewHandler = routes[hash] || routes[''];
   
+  // Update navbar active state
+  renderNavbar();
+
   // Clear and render new view
   appContainer.innerHTML = '';
   const viewElement = document.createElement('div');

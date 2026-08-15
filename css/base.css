@@ -1,51 +1,82 @@
 /* ==========================================================================
-   Base Design Tokens & CSS Variables (HSL System)
+   RoomRent Design System - Luxury Warm Linen & Espresso Palette (Havanza Luxe)
+   Curated via /ui-ux-pro-max-skill
    ========================================================================== */
 
 :root {
-  /* Brand Colors */
-  --primary-h: 221;
-  --primary-s: 83%;
-  --primary-l: 53%;
-  --primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l));
-  --primary-hover: hsl(var(--primary-h), var(--primary-s), 45%);
-  --primary-light: hsl(var(--primary-h), var(--primary-s), 96%);
+  /* Brand Primary - Deep Espresso / Warm Walnut */
+  --primary-h: 20;
+  --primary-s: 24%;
+  --primary-l: 14%;
+  --primary: hsl(var(--primary-h), var(--primary-s), var(--primary-l)); /* #2c1f1a */
+  --primary-hover: #1b120f;
+  --primary-light: #f0e9df;
 
-  /* Accent & VIP Gold */
-  --gold-h: 38;
-  --gold-s: 92%;
-  --gold-l: 50%;
-  --gold: hsl(var(--gold-h), var(--gold-s), var(--gold-l));
-  --gold-light: hsl(var(--gold-h), var(--gold-s), 95%);
+  /* Accent & Action - Warm Amber / Terracotta Ochre */
+  --accent-h: 28;
+  --accent-s: 70%;
+  --accent-l: 45%;
+  --accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l)); /* #c36e22 */
+  --accent-hover: #a85816;
+  --accent-light: #faefe4;
 
-  /* Neutral Surface & Backgrounds */
-  --bg-body: hsl(220, 20%, 98%);
-  --bg-surface: hsl(0, 0%, 100%);
-  --bg-surface-alt: hsl(220, 14%, 96%);
+  /* Luxury Champagne & Gold */
+  --gold-h: 42;
+  --gold-s: 75%;
+  --gold-l: 52%;
+  --gold: hsl(var(--gold-h), var(--gold-s), var(--gold-l)); /* #e0b445 */
+  --gold-hover: #c99c30;
+  --gold-light: #fcf6e5;
+
+  /* Status Colors */
+  --success: #2e7d32;
+  --success-light: #e8f5e9;
+  --info: #0288d1;
+  --warning: #ed6c02;
+  --danger: #d32f2f;
+
+  /* Warm Linen Canvas & Backgrounds (Theo Ảnh Tham Khảo Havanza) */
+  --bg-body: #f6f3eb;        /* Warm Linen Cream */
+  --bg-surface: #ffffff;     /* Pure Surface */
+  --bg-surface-alt: #eee9dc; /* Alabaster Sand */
+  --bg-dark-section: #221815;/* Deep Cocoa Espresso */
+  --bg-overlay: rgba(27, 18, 14, 0.65);
 
   /* Typography Colors */
-  --text-main: hsl(222, 47%, 11%);
-  --text-muted: hsl(215, 16%, 47%);
-  --text-light: hsl(215, 20%, 65%);
+  --text-main: #241a16;      /* Rich Dark Espresso */
+  --text-muted: #736760;     /* Warm Earth Muted */
+  --text-light: #a4978e;     /* Light Sand Stone */
+  --text-inverse: #ffffff;
 
-  /* Borders & Shadows */
-  --border-color: hsl(220, 13%, 91%);
-  --border-radius-sm: 8px;
-  --border-radius-md: 12px;
-  --border-radius-lg: 16px;
+  /* Fonts */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Borders & Radii */
+  --border-color: rgba(60, 40, 30, 0.12);
+  --border-color-dark: rgba(255, 255, 255, 0.15);
+  --border-radius-xs: 6px;
+  --border-radius-sm: 10px;
+  --border-radius-md: 16px;
+  --border-radius-lg: 24px;
+  --border-radius-xl: 32px;
   --border-radius-full: 9999px;
 
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  /* Multi-tier Soft Warm Shadows */
+  --shadow-xs: 0 1px 2px rgba(44, 31, 26, 0.04);
+  --shadow-sm: 0 4px 10px rgba(44, 31, 26, 0.06);
+  --shadow-md: 0 12px 24px -4px rgba(44, 31, 26, 0.08);
+  --shadow-lg: 0 20px 40px -6px rgba(44, 31, 26, 0.12);
+  --shadow-xl: 0 30px 60px -12px rgba(34, 24, 21, 0.22);
 
   /* Transitions */
-  --transition-fast: 0.15s ease;
-  --transition-normal: 0.25s ease;
+  --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ==========================================================================
-   CSS Reset & Defaults
+   CSS Reset & Editorial Typography
    ========================================================================== */
 
 *, *::before, *::after {
@@ -54,20 +85,45 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
 body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--bg-body);
   color: var(--text-main);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-main);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.serif-title {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
 a {
   color: inherit;
   text-decoration: none;
+  transition: color var(--transition-fast);
 }
 
 img {
@@ -78,4 +134,20 @@ img {
 
 button, input, select, textarea {
   font: inherit;
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-body);
+}
+::-webkit-scrollbar-thumb {
+  background: #d8cebe;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b5a896;
 }
