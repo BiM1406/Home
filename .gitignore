@@ -1,8 +1,18 @@
+# Dependencies
 node_modules/
+
+# Environment Variables & Logs
 .env
-.DS_Store
 *.log
+npm-debug.log*
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.opencode/
+
+# Build & Test output
 dist/
 coverage/
-docs/rental-prd-v1.md
-

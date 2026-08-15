@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
+  <title>Chi Tiết Bất Động Sản — RoomRent Thượng Lưu</title>
+
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/slideshow.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+
+  <style>
+    .detail-grid { display: grid; grid-template-columns: 1fr 360px; gap: 40px; margin: 32px 0 64px; }
+    .detail-spec-badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: var(--radius-md); font-size: 0.9rem; font-weight: 600; }
+    .detail-spec-verified { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+    .landlord-card { background: #ffffff; border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 28px; box-shadow: var(--shadow-md); position: sticky; top: calc(var(--header-height) + 20px); }
+    .booking-modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.7); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center; }
+    .booking-modal.show { display: flex; }
+    
+    .detail-main { margin-top: 36px; }
+    .detail-header-group { margin-bottom: 24px; }
+    .detail-hero-tag { background: #fef3c7; color: #78350f; border-color: #fde68a; }
+    .detail-title { font-size: 2.2rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+    .detail-address { color: var(--text-muted); font-size: 1rem; display: flex; align-items: center; gap: 6px; }
+    .detail-pin-icon { color: var(--primary-600); }
+    .detail-specs-bar { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 32px; }
+    .detail-section-block { margin-bottom: 36px; line-height: 1.8; color: var(--text-main); }
+    .detail-section-title { font-size: 1.35rem; font-weight: 700; margin-bottom: 14px; }
+    .detail-amenities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+    .detail-amenity-item { padding: 12px; background: #f8fafc; border-radius: 8px; font-weight: 600; }
+    .landlord-price-label { font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
+    .landlord-price-val { font-size: 1.85rem; font-weight: 800; color: var(--primary-600); margin-bottom: 20px; }
+    .landlord-price-unit { font-size: 0.9rem; font-weight: 400; color: #64748b; }
+    .landlord-profile-box { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; margin-bottom: 24px; }
+    .landlord-avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; }
+    .landlord-name { font-weight: 700; font-size: 1rem; }
+    .landlord-verified-badge { font-size: 0.8rem; color: #166534; font-weight: 600; }
+    .btn-booking-trigger { width: 100%; margin-bottom: 12px; padding: 14px; }
+    .btn-chat-direct { width: 100%; display: inline-flex; justify-content: center; background: #f1f5f9; color: var(--text-main); border: 1px solid #cbd5e1; padding: 12px; font-weight: 700; }
+    .booking-modal-card { background: #ffffff; border-radius: 20px; padding: 32px; max-width: 440px; width: 90%; }
+    .booking-modal-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+    .form-group-mb16 { margin-bottom: 16px; }
+    .form-group-mb24 { margin-bottom: 24px; }
+    .form-label-bold { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; }
+    .modal-btn-row { display: flex; gap: 12px; }
+    .btn-modal-cancel { flex: 1; padding: 12px; background: #f1f5f9; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .btn-modal-submit { flex: 1; padding: 12px; background: var(--primary-600); color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    .opacity-divider { opacity: 0.4; }
+    .header-icon-20 { width: 20px; height: 20px; }
+    .header-icon-24 { width: 24px; height: 24px; }
+
+    .svg-sprite-hidden { display: none; }
+    @media (max-width: 900px) { .detail-grid { grid-template-columns: 1fr; } .landlord-card { position: static; } }
+  </style>
+</head>
+
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" class="svg-sprite-hidden" aria-hidden="true">
+    <symbol id="icon-sparkle" viewBox="0 0 24 24"><path d="m12 3 1.6 4.9L18.5 9.5 13.6 11 12 16l-1.6-5L5.5 9.5 10.4 7.9Z"/><path d="M18 16v4"/><path d="M16 18h4"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="icon-bed" viewBox="0 0 24 24"><path d="M3 18v-7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v7"/><path d="M3 18h18"/><path d="M7 9V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2"/><path d="M3 18v2"/><path d="M21 18v2"/></symbol>
+    <symbol id="icon-bath" viewBox="0 0 24 24"><path d="M4 12h16"/><path d="M4 12a8 8 0 0 1 8-8h2a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2"/><path d="M2 16a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2Z"/><path d="M6 21l1-2"/><path d="M18 21l-1-2"/></symbol>
+    <symbol id="icon-area" viewBox="0 0 24 24"><path d="M21.3 15.3 8.7 2.7a1 1 0 0 0-1.4 0L2.7 7.3a1 1 0 0 0 0 1.4l12.6 12.6a1 1 0 0 0 1.4 0l4.6-4.6a1 1 0 0 0 0-1.4Z"/><path d="m16 7-2 2"/><path d="m12 11-2 2"/><path d="m8 15-2 2"/></symbol>
+    <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.7 8.9a1.7 1.7 0 0 1-1.4 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.2-2.7a1.2 1.2 0 0 1 1.6 0C14.5 3.8 17 5 19 5a1 1 0 0 1 1 1Z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+  </svg>
+
+  <!-- ============ Luxury Header ============ -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" aria-label="RoomRent - Trang chủ">
+        <span class="logo-icon"><svg class="icon header-icon-20"><use href="#icon-sparkle"/></svg></span>
+        Room<span class="logo-accent">Rent</span>
+      </a>
+
+      <nav aria-label="Điều hướng chính" class="main-nav">
+        <ul class="nav-links" id="main-nav-links">
+          <li><a class="nav-link" href="index.html">Trang chủ</a></li>
+          <li><a class="nav-link" href="search.html">Tìm kiếm</a></li>
+          <li><a class="nav-link" href="pricing.html">Gói &amp; Đẩy tin</a></li>
+          <li><a class="nav-link" href="post-property.html">Đăng tin</a></li>
+
+          <!-- Mobile Only Actions inside Navigation Drawer -->
+          <li class="mobile-drawer-footer">
+            <div class="mobile-drawer-lang-wrap">
+              <div class="lang-currency-selector mobile-lang-select-group" role="group" aria-label="Ngôn ngữ và tiền tệ">
+                <select id="mobile-lang-select" aria-label="Ngôn ngữ trên di động">
+                  <option value="vi" selected>Tiếng Việt (VI)</option>
+                  <option value="en">English (EN)</option>
+                </select>
+                <span class="opacity-divider">|</span>
+                <select id="mobile-currency-select" aria-label="Tiền tệ trên di động">
+                  <option value="VND" selected>VND (₫)</option>
+                  <option value="USD">USD ($)</option>
+                </select>
+              </div>
+            </div>
+            <div class="mobile-drawer-cta-group">
+              <a href="login.html" class="btn-header-login mobile-cta-login">Đăng nhập</a>
+              <a href="login.html?tab=register" class="btn-header-register mobile-cta-register">Đăng ký tài khoản</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-currency-selector desktop-only-action" role="group" aria-label="Ngôn ngữ và tiền tệ">
+          <select id="lang-select" aria-label="Ngôn ngữ">
+            <option value="vi" selected>VI</option>
+            <option value="en">EN</option>
+          </select>
+          <span class="opacity-divider">|</span>
+          <select id="currency-select" aria-label="Tiền tệ">
+            <option value="VND" selected>VND</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+        <a href="login.html" class="btn-header-login desktop-only-action">Đăng nhập</a>
+        <a href="login.html?tab=register" class="btn-header-register desktop-only-action">Đăng ký</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle-btn" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="main-nav-links">
+          <svg class="icon header-icon-24"><use href="#icon-menu"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" aria-hidden="true"></div>
+
+  <main id="main-content" class="container detail-main">
+    <div class="detail-header-group">
+      <span class="hero-tag-luxury detail-hero-tag">
+        <svg class="icon"><use href="#icon-sparkle"/></svg> Bất Động Sản Thượng Lưu
+      </span>
+      <h1 id="prop-title" class="detail-title">
+        Villa Thảo Điền Nhiệt Đới Đẳng Cấp
+      </h1>
+      <p id="prop-address" class="detail-address">
+        <svg class="icon detail-pin-icon"><use href="#icon-pin"/></svg> Đường Quốc Hương, Phường Thảo Điền, Thành phố Thủ Đức, TP. Hồ Chí Minh
+      </p>
+    </div>
+
+    <div class="detail-gallery-container detail-main-viewport" data-slideshow>
+      <div class="detail-slide-track">
+        <div class="detail-slide-item"><img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1600" alt="Villa 1"></div>
+        <div class="detail-slide-item"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600" alt="Villa 2"></div>
+        <div class="detail-slide-item"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600" alt="Villa 3"></div>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div>
+        <div class="detail-specs-bar">
+          <div class="detail-spec-badge"><svg class="icon"><use href="#icon-bed"/></svg> 5 Phòng ngủ</div>
+          <div class="detail-spec-badge"><svg class="icon"><use href="#icon-bath"/></svg> 6 Phòng tắm</div>
+          <div class="detail-spec-badge"><svg class="icon"><use href="#icon-area"/></svg> 450 m²</div>
+          <div class="detail-spec-badge detail-spec-verified"><svg class="icon"><use href="#icon-shield"/></svg> Đã xác minh chính chủ</div>
+        </div>
+
+        <div class="detail-section-block">
+          <h2 class="detail-section-title">Mô Tả Bất Động Sản</h2>
+          <p>Biệt thự phong cách Tropical Modern độc bản giữa lòng Thảo Điền. Thiết kế không gian mở ngập tràn ánh sáng tự nhiên, hồ bơi tràn bờ lung linh đêm, sân vườn rộng rãi phù hợp tổ chức tiệc BBQ ngoài trời.</p>
+        </div>
+
+        <div class="detail-section-block">
+          <h2 class="detail-section-title">Tiện Ích &amp; Đặc Quyền</h2>
+          <div class="detail-amenities-grid">
+            <div class="detail-amenity-item">✓ Hồ bơi riêng</div>
+            <div class="detail-amenity-item">✓ Sân vườn BBQ</div>
+            <div class="detail-amenity-item">✓ Bảo vệ 24/7</div>
+            <div class="detail-amenity-item">✓ Gara ô tô rộng</div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="landlord-card">
+          <div class="landlord-price-label">Giá Cho Thuê</div>
+          <div class="landlord-price-val">
+            65.000.000 <small class="landlord-price-unit">VND/tháng</small>
+          </div>
+
+          <div class="landlord-profile-box">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Avatar Nguyễn Văn Thắng - Chủ nhà" class="landlord-avatar">
+            <div>
+              <div class="landlord-name">Nguyễn Văn Thắng</div>
+              <div class="landlord-verified-badge">✓ Chủ nhà uy tín đã xác minh</div>
+            </div>
+          </div>
+
+          <button type="button" id="btn-open-booking" class="btn-hero-search btn-booking-trigger">
+            <svg class="icon"><use href="#icon-calendar"/></svg> ĐẶT LỊCH XEM PHÒNG
+          </button>
+          <a href="chat.html" class="btn-hero-ghost btn-chat-direct">
+            NHẮN TIN CHAT TRỰC TIẾP
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="booking-modal" id="booking-modal">
+    <div class="booking-modal-card">
+      <h3 class="booking-modal-title">Đặt Lịch Xem Phòng</h3>
+      <form id="form-booking">
+        <div class="form-group-mb16">
+          <label class="form-label-bold">Ngày xem</label>
+          <input type="date" required class="hero-search-input">
+        </div>
+        <div class="form-group-mb24">
+          <label class="form-label-bold">Giờ xem</label>
+          <input type="time" required class="hero-search-input">
+        </div>
+        <div class="modal-btn-row">
+          <button type="button" id="btn-close-booking" class="btn-modal-cancel">Hủy</button>
+          <button type="submit" class="btn-modal-submit">Xác nhận</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer class="site-footer"><div class="container"><div class="footer-bottom"><p>© 2026 RoomRent Chi tiết BĐS.</p></div></div></footer>
+
+  <script src="../js/slideshow.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var modal = document.getElementById('booking-modal');
+      var openBtn = document.getElementById('btn-open-booking');
+      var closeBtn = document.getElementById('btn-close-booking');
+      var form = document.getElementById('form-booking');
+
+      if (openBtn) openBtn.addEventListener('click', function () { modal.classList.add('show'); });
+      if (closeBtn) closeBtn.addEventListener('click', function () { modal.classList.remove('show'); });
+      if (form) {
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          alert('🎉 Đặt lịch xem phòng thành công!');
+          modal.classList.remove('show');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

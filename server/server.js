@@ -24,6 +24,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Static files
 app.use(express.static(path.join(__dirname, '../public')));
+app.use('/pages', express.static(path.join(__dirname, '../public/pages')));
 
 // API Routes
 app.use('/api', apiRoutes);
@@ -33,7 +34,7 @@ app.get('/sitemap.xml', (req, res) => {
   const properties = db.getProperties({ status: 'Active' });
   const urls = properties.map(p => `
   <url>
-    <loc>http://localhost:${PORT}/detail.html?id=${p.id}</loc>
+    <loc>http://localhost:${PORT}/pages/detail.html?id=${p.id}</loc>
     <lastmod>${p.createdAt.split('T')[0]}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
@@ -47,7 +48,7 @@ app.get('/sitemap.xml', (req, res) => {
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>http://localhost:${PORT}/search.html</loc>
+    <loc>http://localhost:${PORT}/pages/search.html</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>${urls}
@@ -70,9 +71,18 @@ io.on('connection', (socket) => {
   });
 });
 
-// Fallback to index.html for root
+// Fallback to public/pages/index.html for root or direct HTML routes
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(__dirname, '../public/pages/index.html'));
+});
+
+app.get('/:page.html', (req, res) => {
+  const pageFile = path.join(__dirname, `../public/pages/${req.params.page}.html`);
+  res.sendFile(pageFile, (err) => {
+    if (err) {
+      res.sendFile(path.join(__dirname, '../public/pages/index.html'));
+    }
+  });
 });
 
 server.listen(PORT, () => {

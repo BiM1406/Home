@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
+  <title>Tìm kiếm Bất động sản — RoomRent Thượng Lưu</title>
+  <meta name="description" content="Tìm kiếm biệt thự, villa nghỉ dưỡng, penthouse, căn hộ cao cấp và phòng trọ tiện nghi. Bộ lọc nâng cao theo mức giá, khu vực và tiện ích.">
+
+  <!-- ============ Design System Styles ============ -->
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/slideshow.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+
+  <style>
+    .search-hero-banner {
+      background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+      padding: 48px 0 40px;
+      color: #ffffff;
+      margin-bottom: 36px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .search-hero-title { font-size: 2rem; font-weight: 300; margin-bottom: 8px; }
+    .search-hero-subtitle { color: #94a3b8; font-weight: 300; }
+    .search-layout-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      margin-bottom: 64px;
+    }
+    .filter-panel {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      height: fit-content;
+      position: sticky;
+      top: calc(var(--header-height) + 20px);
+    }
+    .filter-panel-header {
+      font-size: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .filter-group {
+      margin-bottom: 24px;
+    }
+    .filter-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .amenity-checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .checkbox-label input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary-600);
+      border-radius: 4px;
+    }
+    .filter-location-input { padding-left: 14px; }
+    .filter-range-input { width: 100%; accent-color: var(--primary-600); }
+    .price-display-row { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--text-muted); margin-top: 6px; }
+    .price-val-highlight { font-weight: 700; color: var(--primary-600); }
+    .btn-apply-filter { width: 100%; }
+    .search-results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .results-count-text { font-size: 0.95rem; color: var(--text-muted); }
+    .results-count-num { color: var(--text-main); }
+    .sort-select-compact { padding: 6px 12px; font-size: 0.82rem; }
+    .filter-icon-primary { color: var(--primary-600); }
+    .opacity-divider { opacity: 0.4; }
+    .header-icon-20 { width: 20px; height: 20px; }
+    .header-icon-24 { width: 24px; height: 24px; }
+
+    @media (max-width: 900px) {
+      .search-layout-grid {
+        grid-template-columns: 1fr;
+      }
+      .filter-panel {
+        position: static;
+      }
+      .svg-sprite-hidden { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ============ SVG Icon Sprite ============ -->
+  <svg xmlns="http://www.w3.org/2000/svg" class="svg-sprite-hidden" aria-hidden="true">
+    <symbol id="icon-sparkle" viewBox="0 0 24 24"><path d="m12 3 1.6 4.9L18.5 9.5 13.6 11 12 16l-1.6-5L5.5 9.5 10.4 7.9Z"/><path d="M18 16v4"/><path d="M16 18h4"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="icon-filter" viewBox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></symbol>
+    <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  </svg>
+
+  <!-- ============ Luxury Header ============ -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo" aria-label="RoomRent - Trang chủ">
+        <span class="logo-icon"><svg class="icon header-icon-20"><use href="#icon-sparkle"/></svg></span>
+        Room<span class="logo-accent">Rent</span>
+      </a>
+
+      <nav aria-label="Điều hướng chính" class="main-nav">
+        <ul class="nav-links" id="main-nav-links">
+          <li><a class="nav-link" href="index.html">Trang chủ</a></li>
+          <li><a class="nav-link active" href="search.html" aria-current="page">Tìm kiếm</a></li>
+          <li><a class="nav-link" href="pricing.html">Gói &amp; Đẩy tin</a></li>
+          <li><a class="nav-link" href="post-property.html">Đăng tin</a></li>
+
+          <!-- Mobile Only Actions inside Navigation Drawer -->
+          <li class="mobile-drawer-footer">
+            <div class="mobile-drawer-lang-wrap">
+              <div class="lang-currency-selector mobile-lang-select-group" role="group" aria-label="Ngôn ngữ và tiền tệ">
+                <select id="mobile-lang-select" aria-label="Ngôn ngữ trên di động">
+                  <option value="vi" selected>Tiếng Việt (VI)</option>
+                  <option value="en">English (EN)</option>
+                </select>
+                <span class="opacity-divider">|</span>
+                <select id="mobile-currency-select" aria-label="Tiền tệ trên di động">
+                  <option value="VND" selected>VND (₫)</option>
+                  <option value="USD">USD ($)</option>
+                </select>
+              </div>
+            </div>
+            <div class="mobile-drawer-cta-group">
+              <a href="login.html" class="btn-header-login mobile-cta-login">Đăng nhập</a>
+              <a href="login.html?tab=register" class="btn-header-register mobile-cta-register">Đăng ký tài khoản</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-currency-selector desktop-only-action" role="group" aria-label="Ngôn ngữ và tiền tệ">
+          <select id="lang-select" aria-label="Ngôn ngữ">
+            <option value="vi" selected>VI</option>
+            <option value="en">EN</option>
+          </select>
+          <span class="opacity-divider">|</span>
+          <select id="currency-select" aria-label="Tiền tệ">
+            <option value="VND" selected>VND</option>
+            <option value="USD">USD</option>
+          </select>
+        </div>
+        <a href="login.html" class="btn-header-login desktop-only-action">Đăng nhập</a>
+        <a href="login.html?tab=register" class="btn-header-register desktop-only-action">Đăng ký</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle-btn" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="main-nav-links">
+          <svg class="icon header-icon-24"><use href="#icon-menu"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-menu-backdrop" id="mobile-menu-backdrop" aria-hidden="true"></div>
+
+  <section class="search-hero-banner">
+    <div class="container">
+      <h1 class="search-hero-title">Khám Phá Bất Động Sản Cho Thuê</h1>
+      <p class="search-hero-subtitle">Tìm kiếm biệt thự, villa nghỉ dưỡng, penthouse và căn hộ dịch vụ cao cấp.</p>
+    </div>
+  </section>
+
+  <main id="main-content" class="container">
+    <div class="search-layout-grid">
+      <aside class="filter-panel">
+        <div class="filter-title filter-panel-header">
+          <span>Bộ Lọc Nâng Cao</span>
+          <svg class="icon filter-icon-primary"><use href="#icon-filter"/></svg>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-title" for="filter-location">Địa điểm / Khu vực</label>
+          <input type="text" id="filter-location" class="hero-search-input filter-location-input" placeholder="Nhập Thảo Điền, Tây Hồ...">
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-title" for="filter-type">Loại Hình BĐS</label>
+          <select id="filter-type" class="hero-search-select" aria-label="Chọn loại hình bất động sản">
+            <option value="all">Tất cả loại hình</option>
+            <option value="villa">Biệt thự / Villa</option>
+            <option value="luxury">Căn hộ cao cấp</option>
+            <option value="house">Nhà nguyên căn</option>
+            <option value="room">Phòng trọ / Studio</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-title" for="filter-price-range">Khoảng Giá Tối Đa</label>
+          <input type="range" id="filter-price-range" min="5000000" max="100000000" step="5000000" value="100000000" class="filter-range-input" aria-label="Mức giá cho thuê tối đa">
+          <div class="price-display-row">
+            <span>5 Triệu</span>
+            <span id="price-value-display" class="price-val-highlight">100 Triệu VND</span>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">Đặc Quyền Villa &amp; Căn Hộ</div>
+          <div class="amenity-checkbox-grid">
+            <label class="checkbox-label"><input type="checkbox" id="chk-pool" value="Hồ bơi"> Hồ bơi riêng</label>
+            <label class="checkbox-label"><input type="checkbox" id="chk-garden" value="Sân vườn"> Sân vườn BBQ</label>
+            <label class="checkbox-label"><input type="checkbox" id="chk-security" value="Bảo vệ 24/7"> Bảo vệ 24/7</label>
+            <label class="checkbox-label"><input type="checkbox" id="chk-garage" value="Gara ô tô"> Gara ô tô</label>
+            <label class="checkbox-label"><input type="checkbox" id="chk-verified" value="verified"> Chủ nhà Đã xác minh</label>
+          </div>
+        </div>
+
+        <button type="button" id="btn-apply-filter" class="btn-hero-search btn-apply-filter">ÁP DỤNG BỘ LỌC</button>
+      </aside>
+
+      <section>
+        <div class="search-results-header">
+          <div class="results-count-text">
+            Tìm thấy <strong id="results-count" class="results-count-num">0</strong> bất động sản phù hợp
+          </div>
+          <div>
+            <select id="sort-select" class="hero-search-select sort-select-compact" aria-label="Sắp xếp danh sách bất động sản">
+              <option value="newest">Mới nhất</option>
+              <option value="price-asc">Giá thấp đến cao</option>
+              <option value="price-desc">Giá cao đến thấp</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="property-grid" id="search-property-grid"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container"><div class="footer-bottom"><p>© 2026 RoomRent Inc. Nền tảng Cho Thuê BĐS Thượng Lưu.</p></div></div>
+  </footer>
+
+  <script src="../js/slideshow.js"></script>
+  <script src="../js/filter.js"></script>
+</body>
+</html>
